@@ -1,3 +1,7 @@
+import collections
+import time
+
+start_time = time.time()
 # Q1
 # create an anagram checker
 def anagram(s1, s2):
@@ -58,13 +62,71 @@ def pair_sum(arr, k):
 
     return output
 
+# Q3
+# find the missing element
+# description: consider an array of non-negative integers. A second array
+# is formed by shuffling the elements of the first array and deleting a 
+# random element. Given those two arrays, find which element is missing
+# in the second array
+def finder(arr1, arr2):
+    
+    # create a dict that add values from arr2
+    arr = collections.defaultdict(int)
 
+    for num in arr2:
+        arr[num] += 1
+    
+    for num in arr1:
+        if arr[num] == 0:
+            return num
+        else:
+            arr[num] -= 1
+
+def cleverFinder(arr1, arr2):
+    result = 0
+
+    # perform XOR between the numbers in the arrays
+    for num in arr1+arr2:
+        result ^= num
+    return result
+
+# Q4
+# largest Continuous Sum
+# Description: Given an array of integers (positive and negative) find
+# the largest continuous sum
+def large_cont_sum(arr):
+
+    if len(arr) == 0:
+        return 0
+    
+    max_sum = current_sum = arr[0]
+
+    for num in arr[1:]:
+        current_sum = max(current_sum+num, num)
+
+        max_sum = max(current_sum, max_sum)
+    return max_sum
+
+
+#Q1
 print(anagram("go go go", "gggooo"))
 print(anagram("abc", "cba"))
 print(anagram("hi man", "hi     man"))
 print(anagram("aabbcd", "aabbc"))
 print(anagram("123", "1 2"))
-print("")
+print("--- %s seconds ---" % (time.time() - start_time))
+#Q2
 print(pair_sum([1,9,2,8,3,7,4,6,5,5,13,14,11,13,-1],10))
 print(pair_sum([1,2,3,1],3))
 print(pair_sum([1,3,2,2],4))
+print("--- %s seconds ---" % (time.time() - start_time))
+#Q3
+arr1 = [1,2,3,4,5,6,7]
+arr2 = [3,7,2,1,4,6]
+print(finder(arr1,arr2))
+arr1 = [5,5,7,7]
+arr2 = [5,7,7]
+print(finder(arr1,arr2))
+print("--- %s seconds ---" % (time.time() - start_time))
+print(large_cont_sum([1,2,-1,3,4]))
+print("--- %s seconds ---" % (time.time() - start_time))
